@@ -10,14 +10,13 @@ public class FlowController {
     }
 
     public void process() {
-        byte[] data = null;
-        if (useFile) {
-            FileDataReader fileReader = new FileDataReader();
-            data = fileReader.read();
-        } else {
-            SocketDataReader socketDataReader = new SocketDataReader();
-            data = socketDataReader.read();
-        }
+        ByteSource source = null;
+        if (useFile)
+            source = new FileDataReader();
+        else
+            source = new SocketDataReader();
+
+        byte[] data = source.read();
 
         Encryptor encryptor = new Encryptor();
         byte[] encryptedData = encryptor.encrypt(data);
