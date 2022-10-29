@@ -1,53 +1,37 @@
 package 디자인패턴.상태패턴;
 
 public class VendingMachine {
-	public static enum State { NOCOIN, SELECTABLE, SOLDOUT }
+	private State state;
 
-	private State state = State.NOCOIN;
+	public VendingMachine() {
+		state = new NoCoinState();
+	}
 
 	public void insertCoin(int coin) {
-		switch(state) {
-			case NOCOIN:
-				increaseCoin(coin);
-				state = State.SELECTABLE;
-				break;
-			case SELECTABLE:
-				increaseCoin(coin);
-				break;
-			case SOLDOUT:
-				returnCoin();
-		}
+		state.increaseCoin(coin, this);
 	}
 
 	public void select(int productId) {
-		switch (state) {
-			case NOCOIN:
-				// 아무것도 하지 않음
-				break;
-			case SELECTABLE:
-				provideProduct(productId);
-				decreaseCoin();
-				if (hasNoCoin())
-					state = State.NOCOIN;
-				break;
-			case SOLDOUT:
-				// 아무것도 하지 않음
-		}
+		state.select(productId, this);
 	}
 
-	private void increaseCoin(int coin) {
+	public void changeState(State newState) {
+		this.state = newState;
+	}
+
+	public void increaseCoin(int coin) {
 		// ...
 	}
 
-	private void provideProduct(int productId) {
+	public void provideProduct(int productId) {
 		// ...
 	}
 
-	private void decreaseCoin() {
+	public void decreaseCoin() {
 		// ...
 	}
 
-	private boolean hasNoCoin() {
+	public boolean hasNoCoin() {
 		// ...
 		return true;
 	}
