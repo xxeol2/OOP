@@ -1,7 +1,7 @@
 package 디자인패턴.상태패턴;
 
 public class VendingMachine {
-	public static enum State { NOCOIN, SELECTABLE }
+	public static enum State { NOCOIN, SELECTABLE, SOLDOUT }
 
 	private State state = State.NOCOIN;
 
@@ -13,6 +13,9 @@ public class VendingMachine {
 				break;
 			case SELECTABLE:
 				increaseCoin(coin);
+				break;
+			case SOLDOUT:
+				returnCoin();
 		}
 	}
 
@@ -26,6 +29,9 @@ public class VendingMachine {
 				decreaseCoin();
 				if (hasNoCoin())
 					state = State.NOCOIN;
+				break;
+			case SOLDOUT:
+				// 아무것도 하지 않음
 		}
 	}
 
@@ -44,5 +50,9 @@ public class VendingMachine {
 	private boolean hasNoCoin() {
 		// ...
 		return true;
+	}
+
+	public void returnCoin() {
+		// ...
 	}
 }
